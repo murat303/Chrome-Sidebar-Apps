@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="sidepanel.css" />
+    <title>Sidebar Apps</title>
+  </head>
+  <body>
+    <div id="app">
+      <nav id="rail" aria-label="Apps">
+        <div id="icons"></div>
+
+        <button id="addBtn" class="rail-btn" data-tip="Add app" data-tip-pos="right" aria-label="Add app">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+
+        <button id="aboutBtn" class="rail-btn" data-tip="About" data-tip-pos="right" aria-label="About">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        </button>
+      </nav>
+
+      <main id="content">
+        <header id="topbar">
+          <span id="currentName"></span>
+          <span class="spacer"></span>
+
+          <button id="reloadBtn" class="icon-btn" data-tip="Reload" data-tip-pos="bottom" aria-label="Reload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
+
+          <button id="openTabBtn" class="icon-btn" data-tip="Open in new tab" data-tip-pos="bottom" aria-label="Open in new tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </button>
+        </header>
+
+        <div id="frames"></div>
+
+        <div id="empty" class="empty hidden">
+          <p>No apps yet.</p>
+          <button id="emptyAdd" class="primary">+ Add your first app</button>
+        </div>
+      </main>
+    </div>
+
+    <!-- Right-click menu -->
+    <div id="ctxMenu" class="ctx-menu hidden">
+      <button type="button" data-act="edit">Edit</button>
+      <button type="button" data-act="delete">Remove</button>
+    </div>
+
+    <!-- Add / Edit modal -->
+    <div id="modal" class="modal-overlay hidden">
+      <form id="modalForm" class="modal">
+        <h2 id="modalTitle">Add app</h2>
+        <button type="button" id="useTabBtn" class="ghost btn-block">Use current tab</button>
+        <label>
+          Address (URL)
+          <input id="urlInput" type="text" placeholder="https://youtube.com" autocomplete="off" required />
+        </label>
+        <label>
+          Name (optional)
+          <input id="nameInput" type="text" placeholder="YouTube" autocomplete="off" />
+        </label>
+        <label>
+          Icon (emoji, optional)
+          <input id="iconInput" type="text" placeholder="🎬" maxlength="8" autocomplete="off" />
+        </label>
+        <label class="checkbox-row">
+          <input id="externalInput" type="checkbox" />
+          <span>Open in a new tab (for sites that block embedding, e.g. Gmail)</span>
+        </label>
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="ghost">Cancel</button>
+          <button type="submit" class="primary">Save</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- About modal -->
+    <div id="about" class="modal-overlay hidden">
+      <div class="modal about-modal">
+        <div class="about-head">
+          <img class="about-logo" src="icons/icon48.png" alt="" />
+          <div>
+            <h2>Sidebar Apps</h2>
+            <div class="about-version">Version <span id="aboutVersion"></span></div>
+          </div>
+        </div>
+        <p class="about-desc">
+          Pin your favorite sites to the sidebar and switch between them like apps.
+        </p>
+        <ul class="about-features">
+          <li>Add any website as an app (or right-click a page → "Add to Sidebar Apps")</li>
+          <li>Pages stay live in the background as you switch</li>
+          <li>Drag icons to reorder, right-click to edit or remove</li>
+          <li>Custom emoji icons and names</li>
+          <li>Reload or open the current app in a new tab</li>
+          <li>Syncs across your signed-in Chrome devices</li>
+        </ul>
+
+        <div class="about-backup">
+          <div class="about-backup-label">Backup</div>
+          <div class="about-actions">
+            <button type="button" id="exportBtn" class="ghost">Export</button>
+            <button type="button" id="importBtn" class="ghost">Import</button>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="aboutClose" class="primary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <input id="importFile" type="file" accept="application/json,.json" class="hidden" />
+
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

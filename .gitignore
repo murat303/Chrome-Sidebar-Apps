@@ -1,0 +1,9 @@
+# Chrome-generated when the extension is loaded (indexed DNR ruleset)
+_metadata/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
