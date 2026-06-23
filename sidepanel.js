@@ -73,12 +73,38 @@ function normalizeUrl(input) {
 function hostnameOf(url) {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return ""; }
 }
-function faviconUrl(url) {
-  return (
-    "https://www.google.com/s2/favicons?domain=" +
-    encodeURIComponent(hostnameOf(url)) +
-    "&sz=64"
-  );
+// Several favicon sources, tried in order until one loads. This recovers icons
+// for subdomains (e.g. web.whatsapp.com) by also trying the base domain.
+function faviconCandidates(url) {
+  let host = "";
+  try { host = new URL(url).hostname; } catch { host = hostnameOf(url); }
+  const base = host.split(".").slice(-2).join(".");
+  const out = ["https://icons.duckduckgo.com/ip3/" + host + ".ico"];
+  if (base !== host) out.push("https://icons.duckduckgo.com/ip3/" + base + ".ico");
+  out.push("https://www.google.com/s2/favicons?domain=" + encodeURIComponent(base) + "&sz=64");
+  if (base !== host) {
+    out.push("https://www.google.com/s2/favicons?domain=" + encodeURIComponent(host) + "&sz=64");
+  }
+  return out;
+}
+
+// Pick the first favicon source that returns a real image (HTTP 200). Some
+// services (e.g. DuckDuckGo) return a 404 WITH a placeholder image body, which an
+// <img> would happily display — so we check the status with fetch first. The
+// extension's <all_urls> host permission lets these cross-origin fetches succeed.
+async function resolveFavicon(app, btn, img, label) {
+  for (const url of faviconCandidates(app.url)) {
+    try {
+      const res = await fetch(url, { cache: "force-cache" });
+      if (res.ok) { img.src = url; return; }
+    } catch (e) { /* network error → try next */ }
+  }
+  const span = document.createElement("span");
+  span.className = "letter";
+  span.style.background = colorFor(app.name || app.url);
+  span.textContent = (label || "?").charAt(0).toUpperCase();
+  btn.replaceChildren(span);
+  if (app.external) addExtBadge(btn);
 }
 function colorFor(str) {
   let h = 0;
@@ -110,17 +136,9 @@ function renderRail() {
       btn.appendChild(span);
     } else {
       const img = document.createElement("img");
-      img.src = faviconUrl(app.url);
       img.alt = "";
-      img.addEventListener("error", () => {
-        const span = document.createElement("span");
-        span.className = "letter";
-        span.style.background = colorFor(app.name || app.url);
-        span.textContent = (label || "?").charAt(0).toUpperCase();
-        btn.replaceChildren(span);
-        if (app.external) addExtBadge(btn);
-      });
       btn.appendChild(img);
+      resolveFavicon(app, btn, img, label);
     }
     if (app.external) addExtBadge(btn);
 
