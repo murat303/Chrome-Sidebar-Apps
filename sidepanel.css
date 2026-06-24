@@ -319,6 +319,7 @@ body {
 .about-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .about-logo { width: 44px; height: 44px; border-radius: 10px; }
 .about-version { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.about-author { font-size: 12px; color: var(--muted); margin-top: 1px; }
 .about-desc { font-size: 13px; color: var(--fg); margin: 0 0 10px; }
 .about-features {
   margin: 0 0 14px;

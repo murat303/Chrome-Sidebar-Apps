@@ -7,3 +7,6 @@ _metadata/
 # Editor
 .vscode/
 .idea/
+
+# Build artifacts (packaged extension)
+*.zip

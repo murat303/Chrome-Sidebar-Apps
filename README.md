@@ -1,5 +1,7 @@
 # Sidebar Apps — Chrome Extension
 
+By **Murat Gökçe**
+
 Pin your favorite sites (YouTube, ChatGPT, Gmail…) to the browser sidebar and use
 them like apps. A vertical icon strip lives on the left; click an icon to open the
 site in the panel and switch between them. You can add, remove, and reorder apps —
@@ -82,3 +84,7 @@ state (your ChatGPT chat, a playing video, etc.). Your apps are stored with
 ```bash
 python3 make_icons.py
 ```
+
+## Author
+
+Created and maintained by **Murat Gökçe**.

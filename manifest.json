@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Sidebar Apps",
   "version": "1.0.0",
-  "description": "YouTube, ChatGPT gibi siteleri kenar cubuguna uygulama olarak ekleyin; ikondan acin, aralarinda gezinin, sirasini degistirin.",
+  "description": "Pin sites like YouTube and ChatGPT to the sidebar and use them as apps — add, remove, reorder, and switch between them.",
   "permissions": [
     "sidePanel",
     "storage",
