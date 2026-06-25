@@ -499,6 +499,12 @@ importFile.addEventListener("change", () => {
   if (file) importAppsFromFile(file);
 });
 
+document.getElementById("backBtn").addEventListener("click", () => {
+  // Goes back through the panel's joint session history, which includes the
+  // active iframe's navigations (works for SPA sites like YouTube). We cannot
+  // call back() on a cross-origin iframe directly.
+  history.back();
+});
 document.getElementById("reloadBtn").addEventListener("click", () => {
   if (!activeId) return;
   const f = framesEl.querySelector('iframe[data-id="' + cssEscape(activeId) + '"]');
